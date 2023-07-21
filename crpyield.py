@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 from sklearn.linear_model import LogisticRegression
@@ -126,45 +125,26 @@ st.header("Crop Feature Distribution")
 # Define the features
 features = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall']
 
-# Create subplots for each feature
-num_features = len(features)
-num_cols = 2
-num_rows = (num_features + num_cols - 1) // num_cols
+# Create a new DataFrame for plotting
+plot_data = data[features]
 
-fig, axes = plt.subplots(num_rows, num_cols, figsize=(10, num_rows*4))
-
-for i, feature in enumerate(features):
-    row = i // num_cols
-    col = i % num_cols
-    sns.histplot(data[feature], color='blue', ax=axes[row, col])
-
-    # Set x-label and grid for the subplot
-    axes[row, col].set_xlabel(f'Ratio of {feature}', fontsize=12)
-    axes[row, col].grid()
-
-plt.tight_layout()
-
-# Display the figure using st.pyplot() with the Matplotlib figure as an argument
-st.pyplot(fig)
+# Plot the histogram for each feature using Streamlit's native function
+for feature in features:
+    st.subheader(f"Histogram for {feature}")
+    st.bar_chart(plot_data[feature])
 
 # Display the elbow plot for K-Means clustering in the main content area
 st.header("Elbow Method for K-Means")
 
 # Determine Optimum number of clusters by elbow method
-x = data.drop(['label'], axis=1).values
 wcss = []
 for i in range(1, 11):
     km = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10, random_state=0)
     km.fit(x)
     wcss.append(km.inertia_)
 
-# Plot the results
-fig_elbow, ax_elbow = plt.subplots()
-ax_elbow.plot(range(1, 11), wcss)
-ax_elbow.set_title('Elbow Method', fontsize=15)
-ax_elbow.set_xlabel('No. of clusters')
-ax_elbow.set_ylabel('WCSS')
-plt.tight_layout()
+# Plot the elbow plot using Streamlit's native function
+st.line_chart(wcss)
 
 # Display the figure using st.pyplot() with the Matplotlib figure as an argument
 st.pyplot(fig_elbow)
