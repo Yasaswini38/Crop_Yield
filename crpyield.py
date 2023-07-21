@@ -146,8 +146,6 @@ for i in range(1, 11):
 # Plot the elbow plot using Streamlit's native function
 st.line_chart(wcss)
 
-# Display the figure using st.pyplot() with the Matplotlib figure as an argument
-st.pyplot(fig_elbow)
 
 # Prepare the data for model training
 y = data['label']
