@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import streamlit as st
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
